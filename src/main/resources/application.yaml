@@ -1,0 +1,32 @@
+
+spring:
+  application:
+    name: mblog
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    open-in-view: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/myblog
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 30
+      max-lifetime: 3600
+  session:
+    jdbc:
+      initialize-schema: never
+server:
+  port: 8080
+
+app:
+  jwt:
+    secret: 3d965675f90f692ae9cd57b30505bc9e3ec857dc2bf46178a8de5492a0eeef08
+    access-expiration-minutes: 15
+    refresh-expiration-days: 14
+logging:
+  level:
+    root: debug
+    org.hibernate.SQL: OFF
