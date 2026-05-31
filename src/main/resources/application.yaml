@@ -1,10 +1,10 @@
-
 spring:
   application:
     name: mblog
   jpa:
     hibernate:
       ddl-auto: none
+
     show-sql: true
     open-in-view: false
   datasource:
@@ -28,5 +28,12 @@ app:
     refresh-expiration-days: 14
 logging:
   level:
-    root: debug
+    root: DEBUG
+    org.hibernate: WARN
     org.hibernate.SQL: OFF
+    org.hibernate.orm.jdbc.bind: OFF
+    org.hibernate.orm.jdbc.error: OFF
+    org.hibernate.session.metrics: OFF
+    org.hibernate.stat: OFF
+
+kind: Application

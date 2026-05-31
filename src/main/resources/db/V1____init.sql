@@ -8,7 +8,7 @@ create table users(
     status varchar(10) check ( status in ('ACTIVE', 'INACTIVE', 'BANNED') ) ,
     is_online bool ,
     position varchar(20) check ( position in ('AUTHOR', 'READER') ) ,
-    avatar_mediaId varchar(100) ,
+    avatar_media_Id varchar(100) ,
     created_at timestamptz default now(),
     updated_at timestamp default now()
 );
@@ -25,4 +25,58 @@ create table user_roles(
 
     constraint fk_user_roles_user foreign key (user_id) references users(id) on delete cascade,
     constraint fk_user_roles_role foreign key (role_id) references roles(id) on delete cascade
+);
+create table categories(
+    id uuid primary key ,
+    name varchar(100) unique not null ,
+    slug varchar(200) unique not null ,
+    description text ,
+    parent_id uuid,
+    created_at timestamptz default now(),
+    updated_at timestamptz default now() ,
+    constraint fk_categories_parent foreign key (parent_id) references categories(id)
+);
+
+create table tags (
+    id uuid primary key ,
+    name varchar(100) unique not null ,
+    slug varchar(200) unique not null ,
+    created_at timestamptz default now()
+);
+
+create table medias(
+    id uuid primary key ,
+    uploader_id uuid not null ,
+    filename varchar(300) not null ,
+    storage_key varchar(300) not null ,
+    mimeType varchar(50) ,
+    size int ,
+    width bigserial ,
+    height bigserial ,
+    alt_text varchar(100) ,
+    created_at timestamptz default now(),
+    constraint fk_medias_uploader foreign key (uploader_id) references users(id)
+);
+create table posts (
+    id uuid primary key ,
+    author_id uuid not null ,
+    category_id uuid not null ,
+    title varchar(300) not null ,
+    slug varchar(200) unique not null ,
+    excerpt text ,
+    content text ,
+    content_html text ,
+    featured_image_id uuid,
+    status varchar(20) check ( status in ('DRAFT', 'PENDING_REVIEW', 'PUBLISHED', 'SCHEDULED', 'ARCHIVED') ),
+    visibility varchar(20) check ( visibility in ('PUBLIC', 'PRIVATE', 'PASSWORD_PROTECTED') ),
+    published_at timestamptz,
+    scheduled_at timestamptz,
+    created_at timestamptz default now(),
+    updated_at timestamptz default now(),
+    deleted_at timestamptz ,
+    viewCount int,
+
+    constraint fk_posts_author foreign key (author_id) references users(id),
+    constraint fk_posts_category foreign key (category_id) references categories(id),
+    constraint fk_posts_image foreign key (featured_image_id) references medias(id)
 )

@@ -4,6 +4,7 @@ import dolinh.mblog.user.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class JwtConfig {
     private final SecretKey secret;
@@ -47,7 +49,7 @@ public class JwtConfig {
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now))
+                .setExpiration(Date.from(exp    ))
                 .signWith(secret)
                 .compact();
     }
@@ -70,6 +72,7 @@ public class JwtConfig {
             return true;
         }
         catch (Exception e) {
+            log.info(String.valueOf(e));
             return false;
         }
     }

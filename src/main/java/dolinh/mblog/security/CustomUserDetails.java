@@ -18,7 +18,7 @@ public record CustomUserDetails(AppUser user) implements UserDetails {
         for (Role role : user.getRoles()){
             authorities.add(
                     new SimpleGrantedAuthority(
-                            "ROLE_" + role
+                            "ROLE_" + role.getName()
                     )
             );
         }
