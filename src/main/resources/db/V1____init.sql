@@ -49,7 +49,7 @@ create table medias(
     uploader_id uuid not null ,
     filename varchar(300) not null ,
     storage_key varchar(300) not null ,
-    mimeType varchar(50) ,
+    mime_type varchar(50) ,
     size int ,
     width bigserial ,
     height bigserial ,
@@ -74,9 +74,9 @@ create table posts (
     created_at timestamptz default now(),
     updated_at timestamptz default now(),
     deleted_at timestamptz ,
-    viewCount int,
+    view_count int,
 
     constraint fk_posts_author foreign key (author_id) references users(id),
     constraint fk_posts_category foreign key (category_id) references categories(id),
     constraint fk_posts_image foreign key (featured_image_id) references medias(id)
-)
+);

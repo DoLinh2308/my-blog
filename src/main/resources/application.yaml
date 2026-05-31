@@ -28,7 +28,7 @@ app:
     refresh-expiration-days: 14
 logging:
   level:
-    root: DEBUG
+    root: info
     org.hibernate: WARN
     org.hibernate.SQL: OFF
     org.hibernate.orm.jdbc.bind: OFF
