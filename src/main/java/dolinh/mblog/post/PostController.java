@@ -3,10 +3,9 @@ package dolinh.mblog.post;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/api/post")
@@ -17,5 +16,12 @@ public class PostController {
     public ResponseEntity<Void> create(@Valid @RequestBody CreatePostRequest req){
         postService.create(req);
         return ResponseEntity.ok(null);
+    }
+    @PatchMapping("/update-post/{id}")
+    public ResponseEntity<PostResponse> update(
+            @PathVariable UUID id,
+            @Valid @RequestBody UpdatePostRequest req
+    ){
+        return ResponseEntity.ok(postService.updatePost(req,id));
     }
 }

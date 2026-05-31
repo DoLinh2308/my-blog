@@ -80,3 +80,17 @@ create table posts (
     constraint fk_posts_category foreign key (category_id) references categories(id),
     constraint fk_posts_image foreign key (featured_image_id) references medias(id)
 );
+create sequence post_version_seq;
+create table post_versions(
+    id uuid primary key ,
+    post_id uuid not null ,
+    version int default nextval('post_version_seq'),
+    title varchar(100) not null ,
+    content text ,
+    excerpt text ,
+    created_at timestamptz default now(),
+    created_by_id uuid,
+    constraint fk_post_version_post foreign key (post_id) references posts(id)
+);
+
+drop table post_versions;
