@@ -7,11 +7,16 @@ import dolinh.mblog.media.MediaRepository;
 import dolinh.mblog.user.AppUser;
 import dolinh.mblog.user.AppUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -117,5 +122,13 @@ public class PostService {
                 savedPost.getStatus(),
                 savedPost.getVisibility()
         );
+    }
+    public Page<PostResponse> getAllPost(int page, int size, String sortBy, String sortDir){
+        String status = "PUBLISHED";
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return postRepository.findAllByStatus(status,pageable);
     }
 }

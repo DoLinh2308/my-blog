@@ -93,4 +93,17 @@ create table post_versions(
     constraint fk_post_version_post foreign key (post_id) references posts(id)
 );
 
-drop table post_versions;
+create table comments(
+    id uuid primary key ,
+    post_id uuid not null ,
+    author_id uuid not null ,
+    parent_id uuid,
+    content text,
+    status varchar(20) check ( status in ('PENDING', 'APPROVED', 'SPAM', 'TRASHED') ),
+    created_at timestamptz default now(),
+    updated_at timestamptz ,
+
+    constraint fk_comments_post foreign key (post_id) references posts(id),
+    constraint fk_comments_author foreign key (author_id) references users(id),
+    constraint fk_comments_parent foreign key (parent_id) references comments(id)
+);
