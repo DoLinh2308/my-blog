@@ -9,11 +9,11 @@ public record CreatePostRequest(
         @NotNull UUID authorId,
         @NotNull UUID categoryId,
         @NotBlank String title,
-        @NotBlank String slug,
+        String slug,
         String excerpt,
         @NotBlank String content,
         UUID featuredImageId,
-        @NotBlank String status,
-        @NotBlank String visibility
+        String status,
+        String visibility
 ) {
 }
