@@ -38,7 +38,12 @@ public class PostController {
     ){
         return ResponseEntity.ok(postService.getAllPost(page, size, sortBy, sortDir));
     }
-
+    @GetMapping("/post-detail/{id}")
+    public ResponseEntity<DetailPostResponse> getPost(
+            @PathVariable UUID id
+    ){
+        return ResponseEntity.ok(postService.getPost(id));
+    }
     @PostMapping("/{id}/comments")
     public ResponseEntity<Void> createComment(
             @PathVariable UUID id,

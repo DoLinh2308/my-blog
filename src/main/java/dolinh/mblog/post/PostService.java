@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -130,5 +129,20 @@ public class PostService {
                 : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, size, sort);
         return postRepository.findAllByStatus(status,pageable);
+    }
+
+    public DetailPostResponse getPost(UUID postId){
+        Post post = postRepository.findDetailById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found!"));
+        return new DetailPostResponse(
+                post.getAuthor().getUsername(),
+                post.getCategory().getName(),
+                post.getTitle(),
+                post.getSlug(),
+                post.getExcerpt(),
+                post.getContent(),
+                post.getStatus(),
+                post.getVisibility()
+        );
     }
 }
