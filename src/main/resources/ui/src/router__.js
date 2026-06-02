@@ -9,11 +9,15 @@ const routes = [
         redirect: '/login'
     },
     {
+        path: '/home',
+        component: () => import('@/layouts/DashboardLayout.vue')
+    },
+    {
         path: '/login',
         component: LoginView
     },
     {
-        path: '/dashboard',
+        path: '/create-post',
         component: CreatePostView
     },
     {
@@ -23,7 +27,7 @@ const routes = [
     }
 ]
 
-export default createRouter({
+export default createRouter11({
     history: createWebHistory(),
     routes
 })
