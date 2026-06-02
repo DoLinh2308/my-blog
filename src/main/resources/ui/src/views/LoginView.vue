@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
+import { useAuthStore } from '@/stores/authStore'
 const router = useRouter()
-
+const authStore = useAuthStore()
 const username = ref('')
 const password = ref('')
 const loading = ref(false)
@@ -14,37 +14,11 @@ const login = async () => {
     loading.value = true
     error.value = ''
 
-    const response = await fetch(
-        'http://localhost:8080/v1/api/auth/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            username: username.value,
-            password: password.value
-          })
-        }
-    )
-
-    if (!response.ok) {
-      throw new Error('Login failed')
-    }
-
-    const data = await response.json()
-
-    localStorage.setItem(
-        'accessToken',
-        data.accessToken
-    )
-
-    localStorage.setItem(
-        'refreshToken',
-        data.refreshToken
-    )
-
-    await router.push('/post/3c132107-e8aa-4e64-bded-7516f336ef2a')
+    await authStore.login({
+      username: username.value,
+      password: password.value
+    })
+    await router.push('/home')
   } catch (err) {
     error.value = err.message
   } finally {

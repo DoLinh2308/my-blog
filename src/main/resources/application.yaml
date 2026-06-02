@@ -27,7 +27,7 @@ app:
     access-expiration-minutes: 15
     refresh-expiration-days: 14
   minio:
-    endpoint: http://192.168.1.57:9000
+    endpoint: http://192.168.1.67:9000
     secret-key: minioadmin
     access-key: minioadmin
     default-bucket: myblog
